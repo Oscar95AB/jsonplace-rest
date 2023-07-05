@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { ConfigUrls, Urls } from './config-urls';
 import { DetailUser, User } from './interfaces/user';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RestUsersService extends ConfigUrls {
   constructor() {
     super();
@@ -35,21 +37,17 @@ export class RestUsersService extends ConfigUrls {
 }
   */
 
-  postUsuario(user: DetailUser): Observable<DetailUser> {
-    return this.comunGet<DetailUser>(this.urls.users);
-  }
-  /* Catálogos de usuario */
+  // /* Catálogos de usuario */
   getUserAlbum(id: number): Observable<DetailUser> {
-    return this.comunGet<DetailUser>(this.urls.users + id + this.urls.albums);
+    return this.comunActions<DetailUser>(Urls.users + id + Urls.albums, 'GET');
   }
-  getUserTodo(id: number) {
-    return this.comunGet<DetailUser>(this.urls.users + id + this.urls.todos);
-  }
-  getUserPòsts(id: number) {
-    return this.comunGet<DetailUser>(this.urls.users + id + this.urls.posts);
-  }
-  getUserComments(id: number) {
-    return this.comunGet<Comment[]>(this.urls.users + id + this.urls.posts);
-  }
-
+  // getUserTodo(id: number) {
+  //   return this.comunGet<DetailUser>(Urls.users + id + Urls.todos);
+  // }
+  // getUserPòsts(id: number) {
+  //   return this.comunGet<DetailUser>(Urls.users + id + Urls.posts);
+  // }
+  // getUserComments(id: number) {
+  //   return this.comunGet<Comment[]>(Urls.users + id + Urls.posts);
+  // }
 }

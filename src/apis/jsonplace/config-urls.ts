@@ -1,5 +1,7 @@
-import { map, Observable, of } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { switchMap } from 'rxjs/operators';
 
 export class ConfigUrls {
   readonly baseUrl = 'https://jsonplaceholder.typicode.com';
@@ -17,16 +19,21 @@ export class ConfigUrls {
     method: 'POST' | 'PUT' | 'GET' | 'DELETE',
     id?: number,
     body?: U
-  ) {
-    return fromFetch(this.baseUrl + url + (method === 'DELETE'?id:''), {
-      method: method,
-      body: body?JSON.stringify(body):undefined,
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    }).pipe(
-      map((response) => {
-        return response.json() as U;
+  ): Observable<U> {
+    return fromFetch(
+      this.baseUrl +
+        url +
+        (method === 'DELETE' || (method === 'GET' && id) ? id : ''),
+      {
+        method: method,
+        body: body ? JSON.stringify(body) : undefined,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }
+    ).pipe(
+      switchMap((response) => {
+        return fromPromise(response.json()) as Observable<U>;
       })
     );
   }
