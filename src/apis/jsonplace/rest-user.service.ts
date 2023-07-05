@@ -22,32 +22,21 @@ export class RestUsersService extends ConfigUrls {
   postUser(user: DetailUser): Observable<DetailUser> {
     return this.comunActions<DetailUser>(Urls.users, 'POST', 0, user);
   }
-
-  /*
-  {
-  method: 'POST',
-  body: JSON.stringify({
-    title: 'foo',
-    body: 'bar',
-    userId: 1,
-  }),
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  },
-}
-  */
+  deleteUser(id: number): Observable<DetailUser> {
+    return this.comunActions<DetailUser>(Urls.users, 'DELETE', id);
+  }
 
   // /* Catálogos de usuario */
   getUserAlbum(id: number): Observable<DetailUser> {
     return this.comunActions<DetailUser>(Urls.users + id + Urls.albums, 'GET');
   }
-  // getUserTodo(id: number) {
-  //   return this.comunGet<DetailUser>(Urls.users + id + Urls.todos);
-  // }
-  // getUserPòsts(id: number) {
-  //   return this.comunGet<DetailUser>(Urls.users + id + Urls.posts);
-  // }
-  // getUserComments(id: number) {
-  //   return this.comunGet<Comment[]>(Urls.users + id + Urls.posts);
-  // }
+  getUserTodo(id: number) {
+    return this.comunActions<DetailUser>(Urls.users + id + Urls.todos, 'GET');
+  }
+  getUserPosts(id: number) {
+    return this.comunActions<DetailUser>(Urls.users + id + Urls.posts, 'GET');
+  }
+  getUserComments(id: number) {
+    return this.comunActions<Comment[]>(Urls.users + id + Urls.posts, 'GET');
+  }
 }

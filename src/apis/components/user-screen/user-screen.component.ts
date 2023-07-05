@@ -54,10 +54,31 @@ export class UserScreenComponent implements OnInit {
     });
   }
 
+  deleteUser() {
+    this._restUser.deleteUser(1).subscribe((user) => {
+      console.log('Usuario Borrado', user);
+    });
+  }
+
   // Catalogo
   getUserAlbum() {
     this._restUser.getUserAlbum(1).subscribe((Albums) => {
       console.log('Album de Usuario 1', Albums);
+    });
+  }
+  getUserTodo() {
+    this._restUser.getUserTodo(1).subscribe((Albums) => {
+      console.log('Todo de Usuario 1', Albums);
+    });
+  }
+  getUserPosts() {
+    this._restUser.getUserPosts(1).subscribe((Albums) => {
+      console.log('POSTS de Usuario 1', Albums);
+    });
+  }
+  getUserComments() {
+    this._restUser.getUserComments(1).subscribe((Albums) => {
+      console.log('COMMENTS de Usuario 1', Albums);
     });
   }
 
