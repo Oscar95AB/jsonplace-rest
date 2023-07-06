@@ -29,9 +29,9 @@ export class ConfigUrls {
       id = (body as any)?.id;
     }
     // Creamos la Url y el body de la peticion
-    const formatUrl = this.baseUrl + url + id ? id : '';
+    const formatUrl = this.baseUrl + url + (id ? id : '');
     const formatBody = body ? JSON.stringify(body) : undefined;
-
+    
     return fromFetch(formatUrl, {
       method: method,
       body: formatBody,

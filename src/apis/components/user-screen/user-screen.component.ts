@@ -1,17 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RestPostService } from './../../../apis/jsonplace/rest-post.service';
+import { DetailUser } from './../../../apis/jsonplace/interfaces/user';
 import { RestUsersService } from './../../../apis/jsonplace/rest-user.service';
 
 @Component({
   selector: 'app-user-screen',
   standalone: true,
   imports: [CommonModule],
-
   templateUrl: './user-screen.component.html',
   styleUrls: ['./user-screen.component.css'],
 })
 export class UserScreenComponent implements OnInit {
-  constructor(private _restUser: RestUsersService) {}
+  listUsers: DetailUser[] = [];
+  listPosts: any[] = [];
+  constructor(
+    private _restUser: RestUsersService,
+    private _restPost: RestPostService
+  ) {
+    this._restUser.getAllUsers().subscribe((users: any) => {
+      this.listUsers = users;
+      // console.log(this.listUsers);
+    });
+    this._restPost.getAllPosts().subscribe((users: any) => {
+      this.listPosts = users;
+      console.log(this.listPosts);
+    });
+  }
 
   getUser(id: number) {
     this._restUser.getUserId(id).subscribe((user) => {
@@ -53,61 +68,44 @@ export class UserScreenComponent implements OnInit {
       console.log('Usuario Creado:', user);
     });
   }
-  putUser() {
-    const user = {
-      id: 1,
-      name: 'Joselito',
-      username: 'El cantaor',
-      email: 'joselito_cantaor@email.es',
-      phone: '+34668597845',
-      website: 'https://ww',
-      address: {
-        street: 'madrid',
-        suite: 'madrid',
-        city: 'madrid',
-        zipcode: 'madrid',
-        geo: {
-          lat: '-37.3159',
-          lng: '81.1496',
-        },
-      },
-      company: {
-        bs: 'harness real-time e-markets',
-        catchPhrase: 'Multi-layered client-server neural-net',
-        name: 'Romaguera-Crona',
-      },
-    };
+  putUser(user: DetailUser) {
     this._restUser.putUser(user).subscribe((user) => {
       console.log('Usuario Modificado:', user);
     });
   }
-  deleteUser() {
-    this._restUser.deleteUser(1).subscribe((user) => {
+  deleteUser(id: number) {
+    this._restUser.deleteUser(id).subscribe((user) => {
       console.log('Usuario Borrado', user);
     });
   }
 
   // Catalogo
-  getUserAlbum() {
-    this._restUser.getUserAlbum(1).subscribe((Albums) => {
+  getUserAlbum(id: number) {
+    this._restUser.getUserAlbum(id).subscribe((Albums) => {
       console.log('Album de Usuario 1', Albums);
     });
   }
-  getUserTodo() {
-    this._restUser.getUserTodo(1).subscribe((Albums) => {
+  getUserTodo(id: number) {
+    this._restUser.getUserTodo(id).subscribe((Albums) => {
       console.log('Todo de Usuario 1', Albums);
     });
   }
-  getUserPosts() {
-    this._restUser.getUserPosts(1).subscribe((Albums) => {
+  getUserPosts(id: number) {
+    this._restUser.getUserPosts(id).subscribe((Albums) => {
       console.log('POSTS de Usuario 1', Albums);
     });
   }
-  getUserComments() {
-    this._restUser.getUserComments(1).subscribe((Albums) => {
+  getUserComments(id: number) {
+    this._restUser.getUserComments(id).subscribe((Albums) => {
       console.log('COMMENTS de Usuario 1', Albums);
     });
   }
 
+  // POsts
+  getPost(id: number) {
+    this._restPost.getPostId(id).subscribe((post) => {
+      console.log('Post:' + id, post);
+    });
+  }
   ngOnInit() {}
 }

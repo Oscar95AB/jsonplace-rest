@@ -1,30 +1,28 @@
-<h3>Prueba llamadas Rest</h3>
-<br />
-<br />
-<button (click)="getAllUsers()">Busca todos los usuarios</button>
-<br />
-<br />
-<button (click)="getUser(1)">Busca usuario 1</button>
-<br />
-<br />
+<h3>USUARIOS</h3>
+<ul>
+  <li *ngFor="let user of listUsers">
+    {{ user.name }}
+    <button (click)="getUser(user.id)">VER</button>
+    <button (click)="putUser(user)">MMODIFICAR</button>
+    <button (click)="deleteUser(user.id)">BORRAR</button>
+    <button (click)="getUserAlbum(user.id)">Catálogo</button>
+    <button (click)="getUserTodo(user.id)">TODOS</button>
+    <button (click)="getUserPosts(user.id)">Post</button>
+    <button (click)="getUserComments(user.id)">Comentarios</button>
+  </li>
+</ul>
 <button (click)="postUser()">Alta usuario</button>
-<br />
-<br />
-<button (click)="putUser()">Modificar usuario</button>
-<br />
-<br />
-<button (click)="deleteUser()">Borrar usuario</button>
 
-<h3>Catálogos</h3>
-<br />
-<br />
-<button (click)="getUserAlbum()">Busca catalogo de un usuario</button>
-<br />
-<br />
-<button (click)="getUserTodo()">Busca TODO de un usuario</button>
-<br />
-<br />
-<button (click)="getUserPosts()">Busca Post de un usuario</button>
-<br />
-<br />
-<button (click)="getUserComments()">Busca Comentarios de un usuario</button>
+<h3>POSTS</h3>
+<ul>
+  <li *ngFor="let post of listPosts">
+    {{ post.title }}
+    <button (click)="getPost(post.id)">VER</button>
+    <!--<button (click)="putUser(user)">MMODIFICAR</button>
+    <button (click)="deleteUser(user.id)">BORRAR</button>
+    <button (click)="getUserAlbum(user.id)">Catálogo</button>
+    <button (click)="getUserTodo(user.id)">TODOS</button>
+    <button (click)="getUserPosts(user.id)">Post</button>
+    <button (click)="getUserComments(user.id)">Comentarios</button> -->
+  </li>
+</ul>
