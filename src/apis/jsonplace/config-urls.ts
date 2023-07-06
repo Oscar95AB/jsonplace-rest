@@ -17,21 +17,28 @@ export class ConfigUrls {
   comunActions<U>(
     url: string,
     method: 'POST' | 'PUT' | 'GET' | 'DELETE',
-    id?: number,
-    body?: U
+    body?: U | number
   ): Observable<U> {
-    return fromFetch(
-      this.baseUrl +
-        url +
-        ((method === 'DELETE' && id) || (method === 'GET' && id) ? id : ''),
-      {
-        method: method,
-        body: body ? JSON.stringify(body) : undefined,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      }
-    ).pipe(
+    let id;
+
+    // Controlamos que el param body sea un id o un Objeto
+    if (typeof body === 'number') {
+      id = body;
+      body = undefined;
+    } else if (method === 'PUT' && typeof body !== 'number') {
+      id = (body as any)?.id;
+    }
+    // Creamos la Url y el body de la peticion
+    const formatUrl = this.baseUrl + url + id ? id : '';
+    const formatBody = body ? JSON.stringify(body) : undefined;
+
+    return fromFetch(formatUrl, {
+      method: method,
+      body: formatBody,
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).pipe(
       switchMap((response) => {
         return fromPromise(response.json()) as Observable<U>;
       })

@@ -20,23 +20,32 @@ export class RestUsersService extends ConfigUrls {
   }
 
   postUser(user: DetailUser): Observable<DetailUser> {
-    return this.comunActions<DetailUser>(Urls.users, 'POST', 0, user);
+    user = { ...user, id: 0 };
+    return this.comunActions<DetailUser>(Urls.users, 'POST', user);
+  }
+  putUser(user: DetailUser): Observable<DetailUser> {
+    return this.comunActions<DetailUser>(Urls.users, 'PUT', user);
   }
   deleteUser(id: number): Observable<DetailUser> {
     return this.comunActions<DetailUser>(Urls.users, 'DELETE', id);
   }
 
-  // /* Catálogos de usuario */
-  getUserAlbum(id: number): Observable<DetailUser> {
-    return this.comunActions<DetailUser>(Urls.users + id + Urls.albums, 'GET');
+  /* Catálogos de usuario */
+  
+  getUserAlbum(userId: number): Observable<DetailUser> {
+    const url = Urls.users + userId + Urls.albums;
+    return this.comunActions<DetailUser>(url, 'GET');
   }
-  getUserTodo(id: number) {
-    return this.comunActions<DetailUser>(Urls.users + id + Urls.todos, 'GET');
+  getUserTodo(userId: number) {
+    const url = Urls.users + userId + Urls.todos;
+    return this.comunActions<DetailUser>(url, 'GET');
   }
-  getUserPosts(id: number) {
-    return this.comunActions<DetailUser>(Urls.users + id + Urls.posts, 'GET');
+  getUserPosts(userId: number) {
+    const url = Urls.users + userId + Urls.posts;
+    return this.comunActions<DetailUser>(url, 'GET');
   }
-  getUserComments(id: number) {
-    return this.comunActions<Comment[]>(Urls.users + id + Urls.posts, 'GET');
+  getUserComments(userId: number) {
+    const url = Urls.users + userId + Urls.comments
+    return this.comunActions<Comment[]>(url, 'GET');
   }
 }

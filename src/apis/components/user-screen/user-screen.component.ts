@@ -53,7 +53,34 @@ export class UserScreenComponent implements OnInit {
       console.log('Usuario Creado:', user);
     });
   }
-
+  putUser() {
+    const user = {
+      id: 1,
+      name: 'Joselito',
+      username: 'El cantaor',
+      email: 'joselito_cantaor@email.es',
+      phone: '+34668597845',
+      website: 'https://ww',
+      address: {
+        street: 'madrid',
+        suite: 'madrid',
+        city: 'madrid',
+        zipcode: 'madrid',
+        geo: {
+          lat: '-37.3159',
+          lng: '81.1496',
+        },
+      },
+      company: {
+        bs: 'harness real-time e-markets',
+        catchPhrase: 'Multi-layered client-server neural-net',
+        name: 'Romaguera-Crona',
+      },
+    };
+    this._restUser.putUser(user).subscribe((user) => {
+      console.log('Usuario Modificado:', user);
+    });
+  }
   deleteUser() {
     this._restUser.deleteUser(1).subscribe((user) => {
       console.log('Usuario Borrado', user);
